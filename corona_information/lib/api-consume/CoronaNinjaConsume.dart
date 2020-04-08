@@ -1,57 +1,31 @@
-import 'dart:async';
 import 'dart:convert';
-import 'package:corona_information/Models/CountryInformationModel.dart';
-import 'package:corona_information/Models/CountryModel.dart';
+import 'package:corona_information/models/CountryModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+
+
 
 
 class CoronaNinjaConsume {
   String baseUrl = 'https://corona.lmao.ninja/';
 
-
-  getAll() async {
-    var response = await http.get(baseUrl + "all");
-    print("Response status: ${json.decode(response.body)}");
+  getAll() {
+    final response = http.get(baseUrl + "all");
   }
 
-  getHistory() async {
-    var response = await http.get(baseUrl + "v2/historical");
-    print("Response status: ${json.decode(response.body)}");
+  getHistory() {
+    final response = http.get(baseUrl + "v2/historical");
   }
-
-//  getByCountry(String country) async{
-//    var response = await http.get(baseUrl+"countries/$country");
-//    print("Response status: ${json.decode(response.body)}");
-//  }
 
   Future<CountryModel> getByCountry(String country) async {
-    var response = await http.get(baseUrl + "countries/$country");
-    var responseBody = jsonDecode(response.body);
-    var completer = new Completer<CountryModel>();
-    completer.complete();
-    CountryModel countryModel;
-    countryModel.country = responseBody["country"];
-    countryModel.countryInformationModel = responseBody["countryInformationModel"];
-    countryModel.active = responseBody["active"];
-    countryModel.cases = responseBody["cases"];
-    countryModel.casesPerMillion = responseBody["casesPerMillion"];
-    countryModel.todayCases = responseBody["todayCases"];
-    countryModel.deaths = responseBody["deaths"];
-    countryModel.todayDeaths = responseBody["todayDeaths"];
-    countryModel.recovered = responseBody["recovered"];
-    countryModel.critical = responseBody["critical"];
-    countryModel.deathsPerOneMillion = responseBody["deathsPerOneMillion"];
-    countryModel.updated = responseBody["updated"];
-    print(countryModel);
-    return Future.delayed(Duration(seconds: 1),() => countryModel);
+    try {
+      final response = await http.get(baseUrl + "countries/$country");
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        return CountryModel.fromJson(body);
+      }
+    }catch(e){
+      debugPrint(e);
+    }
   }
-
 }
-
-void main() {
-  Completer complete = new Completer<CountryModel>();
-  CoronaNinjaConsume coronaNinjaConsume = new CoronaNinjaConsume();
-  CountryModel entity = complete.complete(coronaNinjaConsume.getByCountry("BRA"));
-  print(entity.casesPerMillion);
-}
-
