@@ -7,17 +7,17 @@ import 'package:http/http.dart' as http;
 
 
 class CoronaNinjaConsume {
-  String baseUrl = 'https://corona.lmao.ninja/';
+  static String baseUrl = 'https://corona.lmao.ninja/';
 
-  getAll() {
-    final response = http.get(baseUrl + "all");
-  }
+// static getAll() {
+//    final response = http.get(baseUrl + "all");
+//  }
+//
+//  getHistory() {
+//    final response = http.get(baseUrl + "v2/historical");
+//  }
 
-  getHistory() {
-    final response = http.get(baseUrl + "v2/historical");
-  }
-
-  Future<CountryModel> getByCountry(String country) async {
+  static Future<CountryModel> getByCountry(String country) async {
     try {
       final response = await http.get(baseUrl + "countries/$country");
       if (response.statusCode == 200) {
