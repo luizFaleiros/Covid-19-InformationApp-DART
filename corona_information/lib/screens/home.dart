@@ -1,4 +1,4 @@
-import 'package:corona_information/screens/brazil_situatio.dart';
+import 'package:corona_information/screens/brazil_situation.dart';
 import 'package:corona_information/screens/graphic_plot.dart';
 import 'package:corona_information/screens/news.dart';
 import 'package:flutter/cupertino.dart';
