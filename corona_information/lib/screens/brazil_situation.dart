@@ -1,3 +1,4 @@
+import 'package:corona_information/components/card-base.dart';
 import 'package:corona_information/models/CountryModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,11 @@ class BrazilSituation extends StatelessWidget {
   }
 
   buildCards(CountryModel countryModel) {
-    final numberFormat = new NumberFormat("#,###","pt_BR");
+    final numberFormat = new NumberFormat("#,###", "pt_BR");
     String recovereds = numberFormat.format(countryModel.recovered);
     String deaths = numberFormat.format(countryModel.deaths);
     String cases = numberFormat.format(countryModel.cases);
-    int todayCases = countryModel.todayCases;
+    String todayCases = numberFormat.format(countryModel.todayCases);
     return GridView.count(
       primary: false,
       padding: const EdgeInsets.all(20),
@@ -45,69 +46,17 @@ class BrazilSituation extends StatelessWidget {
       mainAxisSpacing: 10,
       crossAxisCount: 2,
       children: <Widget>[
-        Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Pessoas curadas'),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-                child: Text(
-                  '$recovereds',
-                  style: TextStyle(
-                      color: Colors.green[600],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24),
-                ),
-              ),
-            ],
-          ),
+        CardBase(
+          title: 'Pessoas curadas',
+          text: recovereds,
+          color: Colors.green[600],
         ),
-        Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Casos confirmados'),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-                child: Text(
-                  '$cases',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                ),
-              ),
-            ],
-          ),
+        CardBase(
+          title: 'Casos confirmados',
+          text: cases,
         ),
-        Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Casos confirmados hoje'),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-                child: Text(
-                  '$todayCases',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('Mortes confirmadas'),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20.0, 0, 0),
-                child: Text(
-                  '$deaths',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                ),
-              ),
-            ],
-          ),
-        ),
+        CardBase(title: 'Casos confirmados hoje',text: todayCases,),
+        CardBase(title: 'Mortes confirmadas',text: deaths,color: Colors.red[600],)
       ],
     );
   }
